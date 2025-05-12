@@ -1,0 +1,42 @@
+# 系统配置
+system:
+  host: "0.0.0.0"
+  port: 5001
+  env: "debug"
+  #env:release
+
+# logger 日志配置
+logger:
+  # 日志级别（如 debug, info, warn, error）
+  level: info
+  # 日志前缀
+  prefix: '[gin-admin-api]'
+  # 日志文件存储目录
+  director: logger
+  # 是否显示日志的行号
+  showLine: true
+  # 是否在控制台打印日志
+  logInConsole: true
+
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  db: gin-blog
+  username: root
+  password: a625391084.
+  logLevel: dev
+  charset: utf8
+  maxIdle: 50
+  maxOpen: 150
+
+redis:
+  address: 127.0.0.1:6379
+  password: 
+  db: 0
+
+# token配置
+token:
+  headers: Bearer
+  expireTime: 24
+  secret: gin-admin-api
+  issuer: admin
