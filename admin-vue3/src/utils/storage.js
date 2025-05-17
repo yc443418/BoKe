@@ -10,15 +10,15 @@ export default {
         storage[key] = val
         window.localStorage.setItem(import.meta.env.VITE_APP_NAME_SPACE, JSON.stringify(storage))
     },
-    getItem(key) {
-        return this.getStorage()[key]
+    getItem(key){
+      return this.getStorage()[key]
     },
-    clearItem(key) {
+    clearItem(key){
         let storage = this.getStorage()
         delete storage[key]
         window.localStorage.setItem(import.meta.env.VITE_APP_NAME_SPACE, JSON.stringify(storage))
     },
-    clearAll() {
+    clearAll(){
         window.localStorage.clear()
     }
 }

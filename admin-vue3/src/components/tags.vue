@@ -1,18 +1,18 @@
 <template>
- <div class="tags">
-   <el-tag class="tag" size="large" v-for="item, index in tags" :key="item.path"
-           :effect="item.title == route.meta.tTitle ? 'dark' : 'plain'" @click="goTo(item.path)" @close="close(index)"
-           :disable-transitions="true" :closable="index > 0">
-     <i class="circular" v-show="item.title == route.meta.tTitle"/>
-     {{ item.title }}
-   </el-tag>
- </div>
+  <div class="tags">
+    <el-tag class="tag" size="large" v-for="item, index in tags" :key="item.path"
+            :effect="item.title == route.meta.tTitle ? 'dark' : 'plain'" @click="goTo(item.path)" @close="close(index)"
+            :disable-transitions="true" :closable="index > 0">
+      <i class="circular" v-show="item.title == route.meta.tTitle"/>
+      {{ item.title }}
+    </el-tag>
+  </div>
 </template>
 
 <script setup>
-import {ref, getCurrentInstance, watch} from "vue"
-import { useRouter, useRoute, onBeforeRouteUpdate } from "vue-router"
-import index from "vuex";
+import {getCurrentInstance, ref, watch} from 'vue'
+import {useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+
 const router = useRouter()
 const route = useRoute()
 const { proxy } = getCurrentInstance()
@@ -26,21 +26,21 @@ const tags = ref([{
 // 事件监听
 watch(
     () => route,
-    (newVal, oldValue) => {
+    (newVal, oldVal) => {
       if (tags.value.length != undefined && tags.value.length != null && tags.value.length > 18) {
-        return proxy.$message.error('最大只能添加18哥标签')
+        return proxy.$message.error('z最大只能添加18个标签')
       }
       const boolean = tags.value.find(item => {
         return newVal.path == item.path
       })
-      if (!boolean ) {
+      if (!boolean) {
         tags.value.push({
           title: newVal.meta.tTitle,
           path: newVal.path
         })
       }
     },
-    { immediate:true, deep: true }
+    { immediate: true, deep: true }
 )
 
 // 指定跳转
@@ -79,5 +79,4 @@ const close = (i)=> {
     }
   }
 }
-
 </style>

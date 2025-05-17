@@ -1,0 +1,51 @@
+# 系统配置
+system:
+  host: "0.0.0.0"
+  port: 5003
+  env: debug
+  # env: release
+
+# logger 日志
+logger:
+  level: info
+  prefix: '[gin-front-api]'
+  director: logger
+  showLine: true
+  logInConsole: true
+
+# mysql配置
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  db: gin-blog
+  username: root
+  password: a625391084.
+  logLevel: dev
+  charset: utf8
+  maxIdle: 50
+  maxOpen: 150
+
+# redis 配置
+redis:
+  address: 127.0.0.1:6379
+  password:
+  db: 0
+
+# 邮箱
+mail:
+  host: smtp.163.com
+  username: yc3249673079@163.com
+  password: MFtZa4wiEDxCr33L
+  port: 465
+
+# token配置
+token:
+  headers: Bearer
+  expireTime: 24
+  secret: gin-front-api
+  issuer: front
+
+# 文件地址和ip
+uploadSettings:
+  uploadDir: /gin-admin/
+  uploadHost: http://localhost:5003

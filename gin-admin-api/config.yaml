@@ -1,0 +1,44 @@
+# 系统配置
+system:
+  host: "0.0.0.0"
+  port: 5001
+  env: debug
+  # env: release
+
+# logger 日志
+logger:
+  level: info
+  prefix: '[gin-admin-api]'
+  director: logger
+  showLine: true
+  logInConsole: true
+
+# mysql 配置
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  db: gin-blog
+  username: root
+  password: a625391084.
+  logLevel: dev
+  charset: utf8
+  maxIdle: 50
+  maxOpen: 150
+
+# redis 配日志
+redis:
+  address: 127.0.0.1:6379
+  password: 
+  db: 0
+
+# token 配置
+token:
+  headers: Bearer
+  expireTime: 24
+  secret: gin-admin-api
+  issuer: admin
+
+# 文件地址和ip
+uploadSettings:
+  uploadDir: /gin-admin/
+  uploadHost: http://localhost:5001

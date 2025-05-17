@@ -1,0 +1,779 @@
+definitions:
+  model.AddCommentDto:
+    properties:
+      articleId:
+        description: 文章ID
+        type: integer
+      content:
+        description: 回复内容
+        type: string
+      pCommentId:
+        description: 父级评论ID
+        type: integer
+      replyUserId:
+        description: 回复人的id
+        type: integer
+    required:
+    - articleId
+    - content
+    type: object
+  model.BArticleDto:
+    properties:
+      categoryId:
+        description: 分类id
+        type: integer
+      content:
+        description: 文章内容
+        type: string
+      id:
+        description: 文章id
+        type: integer
+      image:
+        description: 封面地址
+        type: string
+      markdownContent:
+        description: 文章内容md版
+        type: string
+      summary:
+        description: 文章简介
+        type: string
+      tagId:
+        description: 标签id
+        type: integer
+      title:
+        description: 文章标题
+        type: string
+    type: object
+  model.CommentTopDto:
+    properties:
+      id:
+        description: 评论ID
+        type: integer
+      topType:
+        description: 1:未置顶 2:置顶
+        type: integer
+    type: object
+  model.IdDto:
+    properties:
+      id:
+        description: ID
+        type: integer
+    type: object
+  model.LoginDto:
+    properties:
+      checkCode:
+        description: 验证码
+        maxLength: 6
+        minLength: 4
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      idKey:
+        description: uuid
+        type: string
+      password:
+        description: 密码
+        type: string
+    required:
+    - checkCode
+    - email
+    - password
+    type: object
+  model.MailDto:
+    properties:
+      email:
+        description: 邮箱
+        type: string
+    required:
+    - email
+    type: object
+  model.RegisterDto:
+    properties:
+      email:
+        description: 邮箱
+        type: string
+      emailCode:
+        description: 邮箱验证码
+        type: string
+      password:
+        description: 密码
+        type: string
+      resetPassword:
+        description: 重复密码
+        type: string
+      username:
+        description: 用户账号
+        type: string
+    required:
+    - email
+    - emailCode
+    - password
+    - resetPassword
+    - username
+    type: object
+  model.ResetPasswordDto:
+    properties:
+      email:
+        description: 邮箱
+        type: string
+      emailCode:
+        description: 邮箱验证码
+        type: string
+      password:
+        description: 密码
+        type: string
+      resetPassword:
+        description: 重复密码
+        type: string
+    required:
+    - email
+    - emailCode
+    - password
+    - resetPassword
+    type: object
+  model.UpdateUserDto:
+    properties:
+      icon:
+        description: 头像
+        type: string
+      id:
+        description: ID
+        type: integer
+      note:
+        description: 备注
+        type: string
+      username:
+        description: 用户名
+        type: string
+    required:
+    - note
+    - username
+    type: object
+  model.UpdateUserPasswordDto:
+    properties:
+      id:
+        description: ID
+        type: integer
+      newPassword:
+        description: 新密码
+        type: string
+      oldPassword:
+        description: 密码
+        type: string
+      resetPassword:
+        description: 重复密码
+        type: string
+    required:
+    - newPassword
+    - oldPassword
+    - resetPassword
+    type: object
+  result.Result:
+    properties:
+      code:
+        description: 状态码
+        type: integer
+      data:
+        description: 返回的数据
+      message:
+        description: 提示信息
+        type: string
+    type: object
+info:
+  contact: {}
+  description: 博客用户后台API接口文档
+  title: 博客用户后台
+  version: "1.0"
+paths:
+  /api/bArticle/add:
+    post:
+      description: 新增文章
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.BArticleDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      security:
+      - ApiKeyAuth: []
+      summary: 新增文章
+      tags:
+      - 文章相关接口
+  /api/bArticle/add/comment:
+    post:
+      description: 新增文章评论
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.AddCommentDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      security:
+      - ApiKeyAuth: []
+      summary: 新增文章评论
+      tags:
+      - 文章评论相关接口
+  /api/bArticle/articleId:
+    get:
+      description: 根据id查询文章
+      parameters:
+      - description: 文章id
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      security:
+      - ApiKeyAuth: []
+      summary: 根据id查询文章
+      tags:
+      - 文章相关接口
+  /api/bArticle/comment/like:
+    post:
+      description: 文章评论点赞和取消接口
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.IdDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      security:
+      - ApiKeyAuth: []
+      summary: 文章评论点赞和取消接口
+      tags:
+      - 文章评论相关接口
+  /api/bArticle/comment/top:
+    post:
+      description: 文章评论评论置顶接口
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.CommentTopDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      security:
+      - ApiKeyAuth: []
+      summary: 文章评论评论置顶接口
+      tags:
+      - 文章评论相关接口
+  /api/bArticle/commentVo/list:
+    get:
+      description: 分页查询文章评论接口
+      parameters:
+      - description: 分页数
+        in: query
+        name: pageNum
+        type: integer
+      - description: 每页数
+        in: query
+        name: pageSize
+        type: integer
+      - description: 文章id
+        in: query
+        name: articleId
+        required: true
+        type: integer
+      - description: 排序参数(1-最新， 3-热榜)
+        in: query
+        name: orderType
+        required: true
+        type: integer
+      - description: 用户id
+        in: query
+        name: userId
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 分页查询文章评论接口
+      tags:
+      - 文章评论相关接口
+  /api/bArticle/detail:
+    get:
+      description: 查询文章详情
+      parameters:
+      - description: 文章id
+        in: query
+        name: id
+        type: integer
+      - description: 用户id
+        in: query
+        name: userId
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 查询文章详情
+      tags:
+      - 文章相关接口
+  /api/bArticle/keyword/list:
+    get:
+      description: 根据关键字分页查询文章列表
+      parameters:
+      - description: 分页数
+        in: query
+        name: pageNum
+        type: integer
+      - description: 每页数
+        in: query
+        name: pageSize
+        type: integer
+      - description: 文章标题或用户名称
+        in: query
+        name: keywords
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 根据关键字分页查询文章列表
+      tags:
+      - 文章相关接口
+  /api/bArticle/like:
+    post:
+      description: 文章点赞和取消
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.IdDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      security:
+      - ApiKeyAuth: []
+      summary: 文章点赞和取消
+      tags:
+      - 文章相关接口
+  /api/bArticle/list:
+    get:
+      description: 分页查询文章列表
+      parameters:
+      - description: 分页数
+        in: query
+        name: pageNum
+        type: integer
+      - description: 每页数
+        in: query
+        name: pageSize
+        type: integer
+      - description: 标签id
+        in: query
+        name: tagId
+        type: string
+      - description: 分类id
+        in: query
+        name: categoryId
+        type: string
+      - description: 查询参数：1->热榜,2->发布,3->最新
+        in: query
+        name: orderType
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 分页查询文章列表
+      tags:
+      - 文章相关接口
+  /api/bArticle/update:
+    put:
+      description: 修改文章
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.BArticleDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      security:
+      - ApiKeyAuth: []
+      summary: 修改文章
+      tags:
+      - 文章相关接口
+  /api/bCarousel/list:
+    get:
+      description: 查询文章轮播图列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 查询文章轮播图列表
+      tags:
+      - 文章轮播图相关接口
+  /api/bCategorySelect/list:
+    get:
+      description: 查询文章分类列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 查询文章分类列表
+      tags:
+      - 文章分类相关接口
+  /api/bTagsSelect/list:
+    get:
+      description: 查询文章标签列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 查询文章标签列表
+      tags:
+      - 文章标签相关接口
+  /api/captcha:
+    get:
+      description: 登录验证码
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 登录验证码
+      tags:
+      - 登录验证码相关接口
+  /api/login:
+    post:
+      description: 用户登录
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.LoginDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 用户登录
+      tags:
+      - 用户相关接口
+  /api/qqMail:
+    post:
+      description: 邮箱注册验证码
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.MailDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 邮箱注册验证码
+      tags:
+      - 邮箱注册相关接口
+  /api/register:
+    post:
+      description: 用户注册
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.RegisterDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 用户注册
+      tags:
+      - 用户相关接口
+  /api/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 单上传
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      security:
+      - ApiKeyAuth: []
+      summary: 单上传
+      tags:
+      - 上传相关接口
+  /api/user/article/rank/list:
+    get:
+      description: 文章用户排行列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 文章用户排行列表
+      tags:
+      - 用户相关接口
+  /api/user/articleUserDetail:
+    get:
+      description: 根据用户的id查询文章用户
+      parameters:
+      - description: 用户id
+        in: query
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 根据用户的id查询文章用户
+      tags:
+      - 用户相关接口
+  /api/user/bArticle/list:
+    get:
+      description: 根据id查询文章用户列表
+      parameters:
+      - description: 分页数
+        in: query
+        name: pageNum
+        type: integer
+      - description: 每页数
+        in: query
+        name: pageSize
+        type: integer
+      - description: 用户id
+        in: query
+        name: userId
+        required: true
+        type: integer
+      - description: 类型(1-文章列表，2-评论列表，3-点赞列表)
+        in: query
+        name: type
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 根据id查询文章用户列表
+      tags:
+      - 用户相关接口
+  /api/user/message/count:
+    get:
+      description: 查询用户消息数量
+      parameters:
+      - description: 用户id
+        in: query
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 查询用户消息数量
+      tags:
+      - 用户消息相关接口
+  /api/user/message/list:
+    get:
+      description: 分页查询用户消息列表
+      parameters:
+      - description: 分页数
+        in: query
+        name: pageNum
+        type: integer
+      - description: 每页数
+        in: query
+        name: pageSize
+        type: integer
+      - description: 用户id
+        in: query
+        name: userId
+        required: true
+        type: integer
+      - description: 类型（1-回复我的，2-赞了文章，3-赞了评论，4-系统消息）
+        in: query
+        name: type
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 分页查询用户消息列表
+      tags:
+      - 用户消息相关接口
+  /api/user/reset/password:
+    post:
+      description: 重置密码
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.ResetPasswordDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: 重置密码
+      tags:
+      - 用户相关接口
+  /api/user/updateUserInfo:
+    put:
+      description: 修改个人信息
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateUserDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      security:
+      - ApiKeyAuth: []
+      summary: 修改个人信息
+      tags:
+      - 用户相关接口
+  /api/user/updateUserPassword:
+    put:
+      description: 修改密码
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateUserPasswordDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      security:
+      - ApiKeyAuth: []
+      summary: 修改密码
+      tags:
+      - 用户相关接口
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

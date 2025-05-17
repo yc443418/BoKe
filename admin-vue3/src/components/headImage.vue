@@ -1,7 +1,7 @@
 <template>
   <el-dropdown trigger="click">
     <span>
-      <img v-if="!icon" src="./../assets/image/logo.jpeg" class="admin-icon"/>
+      <img v-if="!icon" src="./../assets/image/logo.jpg" class="admin-icon"/>
       <img v-else :src="ip + icon" class="admin-icon"/>
       <el-icon class="el-icon--right"><arrow-down /></el-icon>
     </span>
@@ -15,8 +15,8 @@
 </template>
 
 <script setup>
-import { ref, getCurrentInstance, watch} from "vue"
-import { useRouter} from "vue-router"
+import { ref, getCurrentInstance, watch } from "vue"
+import { useRouter } from 'vue-router'
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 
@@ -26,9 +26,9 @@ const ip = import.meta.env.VITE_APP_ACCESS_IP
 const icon = ref(null)
 watch(
     () => proxy.$store.state.sysAdmin.icon,
-    (newVal, oldValue) => {
+    (newVal, oldVal) => {
       icon.value = newVal
-      console.log("当前的头像为：", ip + newVal)
+      // console.log("当前的头像为：", ip + newVal)
     },
     { immediate: true, deep: true }
 )
@@ -40,7 +40,7 @@ const goToPersonal = ()=> {
 
 // 退出登录
 const logout = async ()=> {
-  const confirmResult = await proxy.$confirm('确定要退出登录吗？,是否继续', '提示', {
+  const confirmResult = await proxy.$confirm('确定要退出登录吗？, 是否继续', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
@@ -56,15 +56,15 @@ const logout = async ()=> {
 </script>
 
 <style lang="scss">
-  .el-dropdown {
-    .admin-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 20px;
-    }
-
-    .el-icon {
-      cursor: pointer;
-    }
+.el-dropdown {
+  .admin-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
   }
+
+  .el-icon {
+    cursor: pointer;
+  }
+}
 </style>

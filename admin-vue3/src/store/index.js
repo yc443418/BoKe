@@ -11,7 +11,7 @@ const state = {
     leftMenuList: "" || storage.getItem("leftMenuList"),
     permissionList: "" || storage.getItem("permissionList"),
     saveActivePath: "" || storage.getItem("saveActivePath"),
-};
+}
 
 export default createStore({
     state,

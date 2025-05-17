@@ -25,22 +25,22 @@ const router = createRouter({
                 {
                     path: '/system/sysAdmin',
                     component: ()=> import('@/views/system/sysAdmin.vue'),
-                    meta: {sTitle: '系统管理', tTitle: '用户管理'}
-                },
-                {
-                    path: '/system/sysConfig',
-                    component: ()=> import('@/views/system/sysConfig.vue'),
-                    meta: {sTitle: '系统管理', tTitle: '参数管理'}
-                },
-                {
-                    path: '/system/sysMenu',
-                    component: ()=> import('@/views/system/sysMenu.vue'),
-                    meta: {sTitle: '系统管理', tTitle: '菜单管理'}
+                    meta: {sTitle: '系统管理', tTitle: '用户信息'}
                 },
                 {
                     path: '/system/sysRole',
                     component: ()=> import('@/views/system/sysRole.vue'),
-                    meta: {sTitle: '系统管理', tTitle: '角色管理'}
+                    meta: {sTitle: '系统管理', tTitle: '角色信息'}
+                },
+                {
+                    path: '/system/sysMenu',
+                    component: ()=> import('@/views/system/sysMenu.vue'),
+                    meta: {sTitle: '系统管理', tTitle: '菜单信息'}
+                },
+                {
+                    path: '/system/sysConfig',
+                    component: ()=> import('@/views/system/sysConfig.vue'),
+                    meta: {sTitle: '系统管理', tTitle: '参数信息'}
                 },
                 {
                     path: '/system/personal',
@@ -53,7 +53,7 @@ const router = createRouter({
                     meta: {sTitle: '文章管理', tTitle: '文章信息'}
                 },
                 {
-                    path: '/article/Comment',
+                    path: '/article/comment',
                     component: ()=> import('@/views/article/articleComment.vue'),
                     meta: {sTitle: '文章管理', tTitle: '文章评论'}
                 },
@@ -85,17 +85,17 @@ const router = createRouter({
 /**
  * 路由导航守卫
  *
- * 1：未登录只能进入到登录页面
- * 2：登录后不能进入登录页面，只能进入到主页
+ * 1: 未登录只能进入到登录页面
+ * 2: 登录后不能进入登录页面，只能进入到主页
  */
-const whiteList = ['/login']  // 路由白名单
+const whiteList = ['/login']
 router.beforeEach((to, form, next) => {
     let token = storage.getItem("token")
     if (token) {
         // 开启进度条
         NProgress.start()
         if (to.path == '/login') {
-            next('home')
+            next('/home')
         } else {
             next()
         }
@@ -109,7 +109,7 @@ router.beforeEach((to, form, next) => {
 })
 
 // 后置守卫
-router.afterEach((to, from, next) => {
+router.afterEach((to, form, next) => {
     // 进入后关闭进度条
     NProgress.done()
 })

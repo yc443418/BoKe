@@ -1,18 +1,16 @@
 /**
  * axios封装
  */
-
-
 import axios from "axios"
-import router from "../router/router"
-import { ElMessage, ElLoading } from "element-plus"
-import storage from "./storage"
+import router from '../router/router'
+import { ElMessage, ElLoading } from 'element-plus'
+import storage from './storage'
 
-// 创建axios实例
+// 创建axios
 const service = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API,
     timeout: 5000
-});
+})
 
 let loading = null
 // 请求拦截
@@ -26,7 +24,7 @@ service.interceptors.request.use((req)=>{
     if (req.showLoading) {
         loading = ElLoading.service({
             lock: true,
-            text: 'loading',
+            text: '拼命加载中......',
             background: 'rgba(0, 0, 0, 0.8)',
         })
     }
@@ -44,7 +42,7 @@ service.interceptors.response.use((res)=>{
     if (showLoading && loading) {
         loading.close()
     }
-    const {code, date, message} = res.data
+    const {code, data, message} = res.data
     if (code == 403) {
         ElMessage.error(message)
         storage.clearAll()
@@ -62,11 +60,10 @@ service.interceptors.response.use((res)=>{
     }
 })
 
-// 核心请求函数
-function request(options) {
-    const { showLoading = true} = options
+// 核心函数
+const request = (options)=> {
+    const { showLoading = true } = options
     options.method = options.method || 'get'
-
     if (options.method.toLowerCase() == 'get') {
         options.params = options.data
     }
