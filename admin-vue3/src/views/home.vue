@@ -4,7 +4,7 @@
     <el-aside :width="isCollapse ? '64px' : '200px'">
       <!--logo和标题-->
       <div class="logo">
-        <img src="./../assets/image/logo.jpg" class="aside-logo"/>
+        <img src="./../assets/image/logo.jpeg" class="aside-logo"/>
         <h4 v-show="!isCollapse">博客运营后台</h4>
       </div>
       <!--侧边菜单栏-->

@@ -1,7 +1,7 @@
 <template>
   <el-dropdown trigger="click">
     <span>
-      <img v-if="!icon" src="./../assets/image/logo.jpg" class="admin-icon"/>
+      <img v-if="!icon" src="./../assets/image/logo.jpeg" class="admin-icon"/>
       <img v-else :src="ip + icon" class="admin-icon"/>
       <el-icon class="el-icon--right"><arrow-down /></el-icon>
     </span>
